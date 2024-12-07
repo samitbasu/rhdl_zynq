@@ -1,0 +1,12 @@
+setup:
+    wget https://buildroot.org/downloads/buildroot-2024.08.2.tar.gz
+    tar xvfz buildroot-2024.08.2.tar.gz
+    git clone https://github.com/trabucayre/redpitaya.git
+
+build:
+    cd redpitaya && source ./sourceme.ggm && cd ../buildroot-2024.08.2 && make redpitaya_defconfig
+
+
+clean:
+    rm -rf buildroot-*
+    rm -rf redpitaya
