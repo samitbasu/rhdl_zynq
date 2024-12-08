@@ -1,6 +1,28 @@
 use std::io::Write;
 use tcl_me_rhdl::{self as tcl, Prop};
 
+fn create_core() {
+
+
+    let mut script = tcl::Script::default();
+    let root_path = camino::Utf8PathBuf::from(".");
+    let project_name = "core_demo";
+    script.add(tcl::CreateProject {
+        path: root_path.clone(),
+        part: "xc7z020clg400-1".to_string(),
+        name: project_name.to_string(),
+        force: true,
+    });
+
+    script.add(tcl::CloseProject);
+    let file = std::fs::File::create("jnk_core.tcl").unwrap();
+    let mut buf = std::io::BufWriter::new(file);
+    script.commands.iter().for_each(|cmd| {
+        writeln!(buf, "{}", cmd).unwrap();
+    });
+    drop(buf);
+}
+
 fn main() {
     let mut script = tcl::Script::default();
     let root_path = camino::Utf8PathBuf::from(".");

@@ -398,3 +398,33 @@ impl Script {
         self.commands.push(format!("{}", command));
     }
 }
+
+pub struct AXISlaveCoreConfig {
+    pub display_name: String,
+    pub description: String,
+    pub version: String,
+    pub name: String,
+    pub library: String,
+    pub vendor: String,
+    pub vendor_display_name: String,
+    pub company_url: String,
+}
+
+impl std::fmt::Display for AXISlaveCoreConfig {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        writeln!(f, "set_property VERSION {} [ipx::current_core]", self.version)?;
+        writeln!(f, "set_property NAME {} [ipx::current_core]", self.name)?;
+        writeln!(f, "set_property LIBRARY {} [ipx::current_core]",self.library)?;
+        writeln!(f, "set_property VENDOR {} [ipx::current_core]", self.vendor)?;
+        writeln!(f, "set_property VENDOR_DISPLAY_NAME {} [ipx::current_core]", self.vendor_display_name)?;
+        writeln!(f, "set_property COMPANY_URL {} [ipx::current_core]", self.company_url)?;
+        writeln!(f, "set_property SUPPORTED_FAMILIES {{zynq production}} [ipx::current_core]")?;
+
+        writeln!(f, "set_property DISPLAY_NAME {{{}}} [ipx::current_core]", self.display_name)?;
+        writeln!(f, "set_property DESCRIPTION {{{}}} [ipx::current_core]", self.description)?;
+        writeln!(f, "set_property NAME S_AXI [ipx::get_bus_interfaces -of_objects [ipx::current_core] S_AXI]")?;
+        writeln!(f, "set_property INTERFACE_MODE slave [ipx::get_bus_interfaces -of_objects [ipx::current_core] S_AXI]")?;
+        writeln!(f, "set_property VALUE S_AXI [ipx::get_bus_parameters -of_objects [ipx::get_bus_interfaces S_AXI_ACLK] ASSOCIATED_BUSIF]")?;
+        Ok(())
+    }
+}
