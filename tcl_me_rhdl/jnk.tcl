@@ -1,4 +1,4 @@
-create_project demo . -part xc7z010clg400-1 -force
+create_project demo . -part xc7z020clg400-1 -force
 create_bd_design system
 set cell [create_bd_cell -type ip -vlnv xilinx.com:ip:processing_system7:5.5 ps_0]
 set_property  CONFIG.PCW_USE_S_AXI_HP0 1 $cell

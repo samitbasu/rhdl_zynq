@@ -7,7 +7,7 @@ fn main() {
     let project_name = "demo";
     script.add(tcl::CreateProject {
         path: root_path.clone(),
-        part: "xc7z010clg400-1".to_string(),
+        part: "xc7z020clg400-1".to_string(),
         name: project_name.to_string(),
         force: true,
     });
