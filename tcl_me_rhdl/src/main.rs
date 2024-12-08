@@ -2,7 +2,16 @@ use std::io::Write;
 use tcl_me_rhdl::{self as tcl, Prop};
 
 fn create_core() {
-
+    let cfg = tcl::AXISlaveCorePackager {
+        name: "jnk_core".to_string(),
+        display_name: "JNK Core".to_string(),
+        description: "A simple AXI 4 core".to_string(),
+        library: "user".to_string(),
+        version: "0.1".to_string(),
+        vendor: "RHDL".to_string(),
+        vendor_display_name: "The RHDL Project".to_string(),
+        company_url: "https://rust-hdl.org/".to_string(),
+    };
 
     let mut script = tcl::Script::default();
     let root_path = camino::Utf8PathBuf::from(".");
@@ -14,8 +23,10 @@ fn create_core() {
         force: true,
     });
 
+    script.add(cfg);
+
     script.add(tcl::CloseProject);
-    let file = std::fs::File::create("jnk_core.tcl").unwrap();
+    let file = std::fs::File::create("core_gen_jnk.tcl").unwrap();
     let mut buf = std::io::BufWriter::new(file);
     script.commands.iter().for_each(|cmd| {
         writeln!(buf, "{}", cmd).unwrap();
@@ -24,6 +35,8 @@ fn create_core() {
 }
 
 fn main() {
+    create_core();
+
     let mut script = tcl::Script::default();
     let root_path = camino::Utf8PathBuf::from(".");
     let project_name = "demo";
