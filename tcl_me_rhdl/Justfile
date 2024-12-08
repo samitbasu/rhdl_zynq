@@ -8,3 +8,8 @@ build:
     cp ports.xdc jnk/.
     cp clocks.xdc jnk/.
     cd jnk && vivado -mode batch -source jnk.tcl
+
+binify:
+    cd jnk && echo "all:{ system.bit }" > system.bif
+    cd jnk && bootgen -image system.bif -arch zynq -process_bitstream bin -w -o system.bin
+    
