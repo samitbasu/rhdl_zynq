@@ -1,0 +1,10 @@
+clean:
+    rm -rf jnk
+
+build:
+    cargo run
+    mkdir jnk
+    cp jnk.tcl jnk/.
+    cp ports.xdc jnk/.
+    cp clocks.xdc jnk/.
+    cd jnk && vivado -mode batch -source jnk.tcl
