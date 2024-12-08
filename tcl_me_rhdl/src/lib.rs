@@ -358,6 +358,36 @@ impl std::fmt::Display for MakeWrapper {
     }
 }
 
+pub struct UpdateCompileOrder;
+
+impl std::fmt::Display for UpdateCompileOrder {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "update_compile_order -fileset sources_1")
+    }
+}
+
+pub struct GenerateBitstream {
+    pub compressed_bitstream: bool,
+    pub bit_file: Utf8PathBuf,
+}
+
+impl std::fmt::Display for GenerateBitstream {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        writeln!(f, "launch_runs impl_1 -to_step write_bitstream")?;
+        writeln!(f, "wait_on_run impl_1")?;
+        writeln!(f, "open_run [get_runs impl_1]")?;
+        if self.compressed_bitstream {
+            writeln!(
+                f,
+                "set_property BITSTREAM.GENERAL.COMPRESS TRUE [current_design]"
+            )?;
+        }
+        writeln!(f, "write_bitstream -force -file {}", self.bit_file)?;
+
+        Ok(())
+    }
+}
+
 #[derive(Default)]
 pub struct Script {
     pub commands: Vec<String>,

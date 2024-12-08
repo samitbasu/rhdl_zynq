@@ -121,6 +121,11 @@ fn main() {
         paths: vec!["ports.xdc".into(), "clocks.xdc".into()],
         kind: tcl::FileType::Constraint,
     });
+    script.add(tcl::UpdateCompileOrder);
+    script.add(tcl::GenerateBitstream {
+        compressed_bitstream: true,
+        bit_file: root_path.join("system.bit"),
+    });
     script.add(tcl::CloseProject);
     let file = std::fs::File::create("jnk.tcl").unwrap();
     let mut buf = std::io::BufWriter::new(file);

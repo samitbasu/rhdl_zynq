@@ -33,4 +33,11 @@ generate_target all [get_files ./demo.srcs/sources_1/bd/system/system.bd]
 make_wrapper -files [get_files ./demo.srcs/sources_1/bd/system/system.bd] -top
 add_files -fileset sources_1 {./demo.srcs/sources_1/bd/system/hdl/system_wrapper.v }
 add_files -fileset constrs_1 {ports.xdc clocks.xdc }
+update_compile_order -fileset sources_1
+launch_runs impl_1 -to_step write_bitstream
+wait_on_run impl_1
+open_run [get_runs impl_1]
+set_property BITSTREAM.GENERAL.COMPRESS TRUE [current_design]
+write_bitstream -force -file ./system.bit
+
 close_project
